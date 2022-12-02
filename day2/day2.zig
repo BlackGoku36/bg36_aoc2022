@@ -13,28 +13,28 @@ pub fn round1(rounds: []round) anyerror!void {
         const me = handshape.me;
 
         if (elf == 'A') {
-            if (me == 'X') {
-                score += 1 + 3;
-            } else if (me == 'Y') {
-                score += 2 + 6;
-            } else if (me == 'Z') {
-                score += 3 + 0;
+            // ROCK
+            switch (me) {
+                'X' => score += 1 + 3,
+                'Y' => score += 2 + 6,
+                'Z' => score += 3 + 0,
+                else => {},
             }
         } else if (elf == 'B') {
-            if (me == 'Y') {
-                score += 2 + 3;
-            } else if (me == 'Z') {
-                score += 3 + 6;
-            } else if (me == 'X') {
-                score += 1 + 0;
+            // PAPER
+            switch (me) {
+                'X' => score += 1 + 0,
+                'Y' => score += 2 + 3,
+                'Z' => score += 3 + 6,
+                else => {},
             }
         } else if (elf == 'C') {
-            if (me == 'Z') {
-                score += 3 + 3;
-            } else if (me == 'X') {
-                score += 1 + 6;
-            } else if (me == 'Y') {
-                score += 2 + 0;
+            // SCISSOR
+            switch (me) {
+                'X' => score += 1 + 6,
+                'Y' => score += 2 + 0,
+                'Z' => score += 3 + 3,
+                else => {},
             }
         }
     }
@@ -50,30 +50,27 @@ pub fn round2(rounds: []round) anyerror!void {
         const me = handshape.me;
         if (elf == 'A') {
             // ROCK
-            if (me == 'X') {
-                score += 3 + 0;
-            } else if (me == 'Y') {
-                score += 1 + 3;
-            } else if (me == 'Z') {
-                score += 2 + 6;
+            switch (me) {
+                'X' => score += 3 + 0,
+                'Y' => score += 1 + 3,
+                'Z' => score += 2 + 6,
+                else => {},
             }
         } else if (elf == 'B') {
             // PAPER
-            if (me == 'X') {
-                score += 1 + 0;
-            } else if (me == 'Y') {
-                score += 2 + 3;
-            } else if (me == 'Z') {
-                score += 3 + 6;
+            switch (me) {
+                'X' => score += 1 + 0,
+                'Y' => score += 2 + 3,
+                'Z' => score += 3 + 6,
+                else => {},
             }
         } else if (elf == 'C') {
             // SCISSOR
-            if (me == 'X') {
-                score += 2 + 0;
-            } else if (me == 'Y') {
-                score += 3 + 3;
-            } else if (me == 'Z') {
-                score += 1 + 6;
+            switch (me) {
+                'X' => score += 2 + 0,
+                'Y' => score += 3 + 3,
+                'Z' => score += 1 + 6,
+                else => {},
             }
         }
     }
