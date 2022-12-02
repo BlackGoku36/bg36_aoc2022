@@ -5,42 +5,35 @@ const round = struct {
     me: u8,
 };
 
-pub fn round1() anyerror!void {
-    var file = try std.fs.cwd().openFile("input.txt", .{});
-    defer file.close();
-
-    var buffer: [2500]u8 = undefined;
-
+pub fn round1(rounds: []round) anyerror!void {
     var score: u32 = 0;
 
-    while (try file.reader().readUntilDelimiterOrEof(&buffer, '\n')) |line| {
-        var r = std.mem.split(u8, line, " ");
+    for (rounds) |handshape| {
+        const elf = handshape.elf;
+        const me = handshape.me;
 
-        var elf_handshape: u8 = r.first()[0];
-        var me_handshape: u8 = r.next().?[0];
-
-        if (elf_handshape == 'A') {
-            if (me_handshape == 'X') {
+        if (elf == 'A') {
+            if (me == 'X') {
                 score += 1 + 3;
-            } else if (me_handshape == 'Y') {
+            } else if (me == 'Y') {
                 score += 2 + 6;
-            } else if (me_handshape == 'Z') {
+            } else if (me == 'Z') {
                 score += 3 + 0;
             }
-        } else if (elf_handshape == 'B') {
-            if (me_handshape == 'Y') {
+        } else if (elf == 'B') {
+            if (me == 'Y') {
                 score += 2 + 3;
-            } else if (me_handshape == 'Z') {
+            } else if (me == 'Z') {
                 score += 3 + 6;
-            } else if (me_handshape == 'X') {
+            } else if (me == 'X') {
                 score += 1 + 0;
             }
-        } else if (elf_handshape == 'C') {
-            if (me_handshape == 'Z') {
+        } else if (elf == 'C') {
+            if (me == 'Z') {
                 score += 3 + 3;
-            } else if (me_handshape == 'X') {
+            } else if (me == 'X') {
                 score += 1 + 6;
-            } else if (me_handshape == 'Y') {
+            } else if (me == 'Y') {
                 score += 2 + 0;
             }
         }
@@ -49,45 +42,37 @@ pub fn round1() anyerror!void {
     std.log.info("Round-1 score: {d}", .{score});
 }
 
-pub fn round2() anyerror!void {
-    var file = try std.fs.cwd().openFile("input.txt", .{});
-    defer file.close();
-
-    var buffer: [2500]u8 = undefined;
-
+pub fn round2(rounds: []round) anyerror!void {
     var score: u32 = 0;
 
-    while (try file.reader().readUntilDelimiterOrEof(&buffer, '\n')) |line| {
-        var r = std.mem.split(u8, line, " ");
-
-        var elf_handshape: u8 = r.first()[0];
-        var me_handshape: u8 = r.next().?[0];
-
-        if (elf_handshape == 'A') {
+    for (rounds) |handshape| {
+        const elf = handshape.elf;
+        const me = handshape.me;
+        if (elf == 'A') {
             // ROCK
-            if (me_handshape == 'X') {
+            if (me == 'X') {
                 score += 3 + 0;
-            } else if (me_handshape == 'Y') {
+            } else if (me == 'Y') {
                 score += 1 + 3;
-            } else if (me_handshape == 'Z') {
+            } else if (me == 'Z') {
                 score += 2 + 6;
             }
-        } else if (elf_handshape == 'B') {
+        } else if (elf == 'B') {
             // PAPER
-            if (me_handshape == 'X') {
+            if (me == 'X') {
                 score += 1 + 0;
-            } else if (me_handshape == 'Y') {
+            } else if (me == 'Y') {
                 score += 2 + 3;
-            } else if (me_handshape == 'Z') {
+            } else if (me == 'Z') {
                 score += 3 + 6;
             }
-        } else if (elf_handshape == 'C') {
+        } else if (elf == 'C') {
             // SCISSOR
-            if (me_handshape == 'X') {
+            if (me == 'X') {
                 score += 2 + 0;
-            } else if (me_handshape == 'Y') {
+            } else if (me == 'Y') {
                 score += 3 + 3;
-            } else if (me_handshape == 'Z') {
+            } else if (me == 'Z') {
                 score += 1 + 6;
             }
         }
@@ -97,6 +82,26 @@ pub fn round2() anyerror!void {
 }
 
 pub fn main() anyerror!void {
-    try round1();
-    try round2();
+    var file = try std.fs.cwd().openFile("input.txt", .{});
+    defer file.close();
+
+    var buffer: [2500]u8 = undefined;
+
+    var rounds: [2500]round = undefined;
+
+    var i: u32 = 0;
+    while (try file.reader().readUntilDelimiterOrEof(&buffer, '\n')) |line| {
+        var r = std.mem.split(u8, line, " ");
+
+        var elf_handshape: u8 = r.first()[0];
+        var me_handshape: u8 = r.next().?[0];
+
+        rounds[i].elf = elf_handshape;
+        rounds[i].me = me_handshape;
+
+        i += 1;
+    }
+
+    try round1(&rounds);
+    try round2(&rounds);
 }
