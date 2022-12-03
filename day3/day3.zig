@@ -51,26 +51,13 @@ fn part1() anyerror!void {
 
 const group = struct {
     line1: [50]u8,
-    line1_len: u32 = 0,
     line2: [50]u8,
-    line2_len: u32 = 0,
     line3: [50]u8,
-    line3_len: u32 = 0,
 };
 
 fn part2() anyerror!void {
     var buffer: [2000]u8 = undefined;
     var file = try std.fs.cwd().openFile("input.txt", .{});
-
-    var map_lower: [26]u8 = undefined;
-    var map_upper: [26]u8 = undefined;
-
-    for (map_lower) |_, index| {
-        map_lower[index] = 0;
-    }
-    for (map_upper) |_, index| {
-        map_upper[index] = 0;
-    }
 
     var i: u32 = 0;
     var j: u32 = 0;
@@ -81,17 +68,14 @@ fn part2() anyerror!void {
         if (j == 0) {
             for (line) |value, index| {
                 lines[i].line1[index] = value;
-                if (value != undefined) lines[i].line1_len += 1;
             }
         } else if (j == 1) {
             for (line) |value, index| {
                 lines[i].line2[index] = value;
-                lines[i].line2_len += 1;
             }
         } else if (j == 2) {
             for (line) |value, index| {
                 lines[i].line3[index] = value;
-                lines[i].line3_len += 1;
             }
         }
         j += 1;
